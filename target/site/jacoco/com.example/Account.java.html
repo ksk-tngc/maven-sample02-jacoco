@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ja"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Account.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">my-java-maven-jacoco-sample</a> &gt; <a href="index.source.html" class="el_package">com.example</a> &gt; <span class="el_source">Account.java</span></div><h1>Account.java</h1><pre class="source lang-java linenums">package com.example;
+
+/**
+ * 口座を表すクラスです。
+ */
+public class Account {
+
+    // -------------------------------------------------------------
+    // フィールド
+    // -------------------------------------------------------------
+
+    /** 名義人 */
+    private String ownerName;
+
+    /** 残高 */
+    private int balance;
+
+    // -------------------------------------------------------------
+    // コンストラクタ
+    // -------------------------------------------------------------
+
+    /**
+     * コンストラクタです。
+     * 
+     * &lt;p&gt;すべてのフィールドを初期化します。
+     * 
+     * @param ownerName 名義人
+     * @param balance 残高
+     */
+<span class="fc" id="L30">    public Account(String ownerName, int balance) {</span>
+        // チェック処理
+        // 名義人にnullは設定できない
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        if (ownerName == null) {</span>
+<span class="fc" id="L34">            throw new IllegalArgumentException(&quot;名義人がnullです。&quot;);</span>
+        }
+        // 残高にマイナス金額は設定できない
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">        if (balance &lt; 0) {</span>
+<span class="nc" id="L38">            throw new IllegalArgumentException(&quot;残高にマイナス金額は設定できません。&quot;);</span>
+        }
+
+<span class="fc" id="L41">        this.ownerName = ownerName;</span>
+<span class="fc" id="L42">        this.balance = balance;</span>
+<span class="fc" id="L43">    }</span>
+
+    // -------------------------------------------------------------
+    // メソッド
+    // -------------------------------------------------------------
+
+    /**
+     * 送金処理です。
+     * 
+     * @param dest 送金先の口座
+     * @param amount 送金する金額
+     */
+    public void transfer(Account dest, int amount) {
+        // チェック処理
+        // 送金額は1円以上であること
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">        if (amount &lt; 1) {</span>
+<span class="nc" id="L59">            throw new IllegalArgumentException(String.format(&quot;送金額は1円以上である必要があります。(amount=%d)&quot;, amount));</span>
+        }
+        // 残高がマイナスになる金額は送金できない
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (this.balance &lt; amount) {</span>
+<span class="fc" id="L63">            throw new IllegalArgumentException(</span>
+<span class="fc" id="L64">                    String.format(&quot;残高がマイナスになる金額は送金できません。(balance=%d, amount=%d)&quot;, this.balance, amount));</span>
+        }
+
+        // 自分の残高を減らし、送金先口座の残高を増やす
+<span class="fc" id="L68">        this.balance -= amount;</span>
+<span class="fc" id="L69">        dest.balance += amount;</span>
+<span class="fc" id="L70">    }</span>
+
+    /**
+     * 入金処理です。
+     * 
+     * @param amount 入金する金額
+     */
+    public void deposit(int amount) {
+        // チェック処理
+        // 入金額は1円以上であること
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        if (amount &lt; 1) {</span>
+<span class="fc" id="L81">            throw new IllegalArgumentException(String.format(&quot;入金額は1円以上である必要があります。(amount=%d)&quot;, amount));</span>
+        }
+
+        // 残高を増やす
+<span class="fc" id="L85">        this.balance += amount;</span>
+<span class="fc" id="L86">    }</span>
+
+    // -------------------------------------------------------------
+    // Getter
+    // -------------------------------------------------------------
+
+    public String getOwnerName() {
+<span class="fc" id="L93">        return this.ownerName;</span>
+    }
+
+    public int getBalance() {
+<span class="fc" id="L97">        return this.balance;</span>
+    }
+
+    // -------------------------------------------------------------
+    // Setter
+    // -------------------------------------------------------------
+
+    public void setOwnerName(String ownerName) {
+<span class="nc" id="L105">        this.ownerName = ownerName;</span>
+<span class="nc" id="L106">    }</span>
+
+    // public void setBalance(int balance) {
+    //     this.balance = balance;
+    // }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
